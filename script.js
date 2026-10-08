@@ -201,41 +201,50 @@ const places = [
   }
 ];
 
-/* =========================================================
-   CONTACT INFORMATION
-   ========================================================= */
-
-const facebookUrl = "https://www.facebook.com/fbyourmamun";
-
-const whatsappNumber = "8801410452007";
-
-const whatsappUrl = `https://wa.me/${whatsappNumber}`;
-
 
 /* =========================================================
-   VISITED DATA
+   FACEBOOK + WHATSAPP
    ========================================================= */
 
-const storageKey = "mamunSherpurVisitedV2";
+const facebookUrl =
+  "https://www.facebook.com/fbyourmamun";
+
+const whatsappNumber =
+  "8801410452007";
+
+const whatsappUrl =
+  "https://wa.me/" + whatsappNumber;
+
+
+/* =========================================================
+   VISITED SYSTEM
+   ========================================================= */
+
+const storageKey =
+  "mamunSherpurVisitedV2";
 
 let visited = [];
 
 try {
-  visited = JSON.parse(
-    localStorage.getItem(storageKey) || "[]"
-  );
+
+  visited =
+    JSON.parse(
+      localStorage.getItem(storageKey) || "[]"
+    );
 
   if (!Array.isArray(visited)) {
     visited = [];
   }
 
-} catch (e) {
+} catch (error) {
+
   visited = [];
+
 }
 
 
 /* =========================================================
-   HELPER FUNCTIONS
+   HELPERS
    ========================================================= */
 
 function $(id) {
@@ -266,27 +275,39 @@ function normalize(value) {
 
 function mapsUrl(place) {
 
-  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    `${place.name}, ${place.upazila}, Sherpur, Bangladesh`
-  )}`;
+  return (
+    "https://www.google.com/maps/search/?api=1&query=" +
+    encodeURIComponent(
+      place.name +
+      ", " +
+      place.upazila +
+      ", Sherpur, Bangladesh"
+    )
+  );
 
 }
 
 
 function youtubeUrl(place) {
 
-  return `https://www.youtube.com/results?search_query=${encodeURIComponent(
-    `${place.name} Sherpur`
-  )}`;
+  return (
+    "https://www.youtube.com/results?search_query=" +
+    encodeURIComponent(
+      place.name + " Sherpur"
+    )
+  );
 
 }
 
 
 function shareUrl(place) {
 
-  return `${location.origin}${location.pathname}#${encodeURIComponent(
-    place.id
-  )}`;
+  return (
+    location.origin +
+    location.pathname +
+    "#" +
+    encodeURIComponent(place.id)
+  );
 
 }
 
@@ -312,9 +333,10 @@ function toggleVisited(id) {
 
   if (isVisited(id)) {
 
-    visited = visited.filter(
-      item => item !== id
-    );
+    visited =
+      visited.filter(
+        item => item !== id
+      );
 
   } else {
 
@@ -346,7 +368,8 @@ function createTouristIcon() {
 
   return L.divIcon({
 
-    className: "mamun-tourist-marker",
+    className:
+      "mamun-tourist-marker",
 
     html: `
       <div style="
@@ -362,14 +385,11 @@ function createTouristIcon() {
         justify-content:center;
         box-sizing:border-box;
       ">
-
         <span style="
           transform:rotate(45deg);
           font-size:18px;
           line-height:1;
-          color:#ffffff;
         ">📍</span>
-
       </div>
     `,
 
@@ -386,7 +406,8 @@ function createTouristIcon() {
 
 function initMap() {
 
-  const mapElement = $("map");
+  const mapElement =
+    $("map");
 
   if (
     !mapElement ||
@@ -396,12 +417,13 @@ function initMap() {
   }
 
 
-  /* Compact map size */
+  /* Map compact size */
 
   mapElement.style.height =
     window.innerWidth <= 700
       ? "300px"
       : "350px";
+
 
   mapElement.style.borderRadius =
     "18px";
@@ -410,50 +432,38 @@ function initMap() {
     "hidden";
 
 
-  /* Sherpur centered map */
-
-  map = L.map("map", {
-
-    zoomControl: true,
-
-    scrollWheelZoom: true,
-
-    minZoom: 10,
-
-    maxZoom: 16
-
-  }).setView(
-
-    [25.06, 90.03],
-
-    11
-
-  );
+  map =
+    L.map(
+      "map",
+      {
+        zoomControl: true,
+        scrollWheelZoom: true,
+        minZoom: 10,
+        maxZoom: 16
+      }
+    ).setView(
+      [25.06, 90.03],
+      11
+    );
 
 
   L.tileLayer(
     "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
     {
-
       attribution:
         "© OpenStreetMap contributors",
-
       maxZoom: 19
-
     }
-
   ).addTo(map);
 
 
-  /* Keep map focused around Sherpur */
+  /* Sherpur focused boundary */
 
-  const sherpurBounds = L.latLngBounds(
-
-    [24.94, 89.78],
-
-    [25.34, 90.20]
-
-  );
+  const sherpurBounds =
+    L.latLngBounds(
+      [24.94, 89.78],
+      [25.34, 90.20]
+    );
 
 
   map.setMaxBounds(
@@ -465,7 +475,8 @@ function initMap() {
 
 
   markerLayer =
-    L.layerGroup().addTo(map);
+    L.layerGroup()
+      .addTo(map);
 
 
   touristIcon =
@@ -496,79 +507,58 @@ function popupHTML(place) {
 
 
   return `
-
     <div style="
       min-width:220px;
       max-width:280px;
       font-family:Arial,'Noto Sans Bengali',sans-serif;
     ">
 
-
       ${
         place.image
-
-        ? `
-
-          <img
-            src="${escapeHTML(place.image)}"
-
-            alt="${escapeHTML(place.name)}"
-
-            style="
-              width:100%;
-              height:130px;
-              object-fit:cover;
-              border-radius:12px;
-              margin-bottom:8px;
-            "
-
-            onerror="
-              this.style.display='none'
-            "
-          >
-
-        `
-
-        : ""
+          ? `
+            <img
+              src="${escapeHTML(place.image)}"
+              alt="${escapeHTML(place.name)}"
+              style="
+                width:100%;
+                height:130px;
+                object-fit:cover;
+                border-radius:12px;
+                margin-bottom:8px;
+              "
+              onerror="
+                this.style.display='none'
+              "
+            >
+          `
+          : ""
       }
-
 
       <div style="
         font-size:16px;
         font-weight:800;
         margin-bottom:5px;
       ">
-
         ${escapeHTML(place.name)}
-
       </div>
-
 
       <div style="
         font-size:13px;
         color:#666;
         margin-bottom:8px;
       ">
-
         📍 ${escapeHTML(place.upazila)}
-
         ·
-
         ${escapeHTML(place.category)}
-
       </div>
-
 
       <div style="
         font-size:13px;
         line-height:1.55;
         margin-bottom:10px;
       ">
-
         ${escapeHTML(place.description)}
-
       </div>
-
 
       <div style="
         display:flex;
@@ -576,11 +566,8 @@ function popupHTML(place) {
         flex-wrap:wrap;
       ">
 
-
         <button
-
           onclick="toggleVisited('${place.id}')"
-
           style="
             border:0;
             border-radius:8px;
@@ -590,22 +577,14 @@ function popupHTML(place) {
             cursor:pointer;
             font-weight:700;
           "
-
         >
-
           ${visitedText}
-
         </button>
 
-
         <a
-
           href="${mapsUrl(place)}"
-
           target="_blank"
-
           rel="noopener"
-
           style="
             text-decoration:none;
             border-radius:8px;
@@ -614,18 +593,13 @@ function popupHTML(place) {
             color:#222;
             font-weight:700;
           "
-
         >
-
           🗺️ Maps
-
         </a>
-
 
       </div>
 
     </div>
-
   `;
 
 }
@@ -645,29 +619,17 @@ function renderMarkers(list = places) {
 
     const marker =
       L.marker(
-
-        [
-          place.lat,
-          place.lon
-        ],
-
+        [place.lat, place.lon],
         {
           icon: touristIcon
         }
-
-      ).addTo(markerLayer);
+      ).addTo(
+        markerLayer
+      );
 
 
     marker.bindPopup(
       popupHTML(place)
-    );
-
-
-    marker.on(
-      "click",
-      () => {
-        marker.openPopup();
-      }
     );
 
   });
@@ -676,7 +638,7 @@ function renderMarkers(list = places) {
 
 
 /* =========================================================
-   SEARCH / FILTER
+   SEARCH
    ========================================================= */
 
 function getSearchValue() {
@@ -685,7 +647,6 @@ function getSearchValue() {
     $("searchInput") ||
     $("search") ||
     $("searchBox");
-
 
   return input
     ? normalize(input.value)
@@ -701,7 +662,6 @@ function getCategoryValue() {
     $("category") ||
     $("filterCategory");
 
-
   return select
     ? select.value
     : "সব";
@@ -715,7 +675,6 @@ function getUpazilaValue() {
     $("upazilaFilter") ||
     $("upazila") ||
     $("filterUpazila");
-
 
   return select
     ? select.value
@@ -738,40 +697,27 @@ function filteredPlaces() {
 
   return places.filter(place => {
 
-
     const searchMatch =
-
       !search ||
-
       normalize(place.name)
         .includes(search) ||
-
       normalize(place.upazila)
         .includes(search) ||
-
       normalize(place.category)
         .includes(search);
 
 
     const categoryMatch =
-
       !category ||
-
       category === "সব" ||
-
       category === "all" ||
-
       place.category === category;
 
 
     const upazilaMatch =
-
       !upazila ||
-
       upazila === "সব" ||
-
       upazila === "all" ||
-
       place.upazila === upazila;
 
 
@@ -791,7 +737,6 @@ function applyFilters() {
   const list =
     filteredPlaces();
 
-
   renderPlaces(list);
 
   renderMarkers(list);
@@ -803,6 +748,7 @@ function applyFilters() {
 
 /* =========================================================
    PLACE CARDS
+   Uses existing index.html classes/design
    ========================================================= */
 
 function cardHTML(place) {
@@ -812,172 +758,115 @@ function cardHTML(place) {
 
 
   return `
-
     <article
       class="place-card"
       data-place-id="${escapeHTML(place.id)}"
     >
 
-
       <div class="place-image-wrap">
-
 
         ${
           place.image
-
-          ? `
-
-            <img
-
-              class="place-image"
-
-              src="${escapeHTML(place.image)}"
-
-              alt="${escapeHTML(place.name)}"
-
-              loading="lazy"
-
-              onerror="
-                this.style.display='none';
-                this.parentElement.classList.add('no-image')
-              "
-
-            >
-
-          `
-
-          : `
-
-            <div class="place-placeholder">
-              📍
-            </div>
-
-          `
+            ? `
+              <img
+                class="place-image"
+                src="${escapeHTML(place.image)}"
+                alt="${escapeHTML(place.name)}"
+                loading="lazy"
+                onerror="
+                  this.style.display='none';
+                  this.parentElement.classList.add('no-image')
+                "
+              >
+            `
+            : `
+              <div class="place-placeholder">
+                📍
+              </div>
+            `
         }
-
 
       </div>
 
 
       <div class="place-content">
 
-
         <div class="place-badges">
 
-
           <span class="place-category">
-
             ${escapeHTML(place.category)}
-
           </span>
-
 
           <span class="place-upazila">
-
             ${escapeHTML(place.upazila)}
-
           </span>
-
 
         </div>
 
 
         <h3>
-
           ${escapeHTML(place.name)}
-
         </h3>
 
 
         <p>
-
           ${escapeHTML(place.description)}
-
         </p>
 
 
         <div class="place-actions">
 
-
           <button
-
             class="
               visited-btn
               ${checked ? "active" : ""}
             "
-
             onclick="
               toggleVisited('${place.id}')
             "
-
           >
-
             ${
               checked
                 ? "✓ ঘোরা হয়েছে"
                 : "আমি ঘুরেছি"
             }
-
           </button>
 
 
           <a
-
             class="map-btn"
-
             href="${mapsUrl(place)}"
-
             target="_blank"
-
             rel="noopener"
-
           >
-
             🗺️ Maps
-
           </a>
 
 
           <a
-
             class="youtube-btn"
-
             href="${youtubeUrl(place)}"
-
             target="_blank"
-
             rel="noopener"
-
           >
-
             ▶ ভিডিও
-
           </a>
 
 
           <button
-
             class="share-btn"
-
             onclick="
               sharePlace('${place.id}')
             "
-
           >
-
             ↗ শেয়ার
-
           </button>
-
 
         </div>
 
-
       </div>
 
-
     </article>
-
   `;
 
 }
@@ -988,13 +877,9 @@ function renderPlaces(
 ) {
 
   const container =
-
     $("placesGrid") ||
-
     $("places") ||
-
     $("placeGrid") ||
-
     $("cards");
 
 
@@ -1004,13 +889,11 @@ function renderPlaces(
 
 
   container.innerHTML =
-
     list.length
-
-      ? list.map(cardHTML).join("")
-
+      ? list.map(
+          cardHTML
+        ).join("")
       : `
-
         <div style="
           grid-column:1/-1;
           text-align:center;
@@ -1021,28 +904,18 @@ function renderPlaces(
           <div style="
             font-size:42px;
           ">
-
             🔎
-
           </div>
 
-
           <h3>
-
             কোনো পর্যটন স্থান পাওয়া যায়নি
-
           </h3>
 
-
           <p>
-
             সার্চ বা ফিল্টার পরিবর্তন করে আবার চেষ্টা করুন।
-
           </p>
 
-
         </div>
-
       `;
 
 }
@@ -1061,24 +934,20 @@ function updateStats(
 
 
   const visitedTotal =
-
-    visited.filter(id =>
-
-      places.some(
-        place => place.id === id
-      )
-
+    visited.filter(
+      id =>
+        places.some(
+          place =>
+            place.id === id
+        )
     ).length;
 
 
   const percentage =
-
     total
-
       ? Math.round(
           (visitedTotal / total) * 100
         )
-
       : 0;
 
 
@@ -1092,7 +961,7 @@ function updateStats(
 
     ["totalPlaces", total],
 
-    ["visitedPercent", `${percentage}%`],
+    ["visitedPercent", percentage + "%"],
 
     ["placeCount", visible],
 
@@ -1104,10 +973,12 @@ function updateStats(
   elements.forEach(
     ([id, value]) => {
 
-      const el = $(id);
+      const element =
+        $(id);
 
-      if (el) {
-        el.textContent = value;
+      if (element) {
+        element.textContent =
+          value;
       }
 
     }
@@ -1115,16 +986,14 @@ function updateStats(
 
 
   const progress =
-
     $("visitedProgress") ||
-
     $("progressBar");
 
 
   if (progress) {
 
     progress.style.width =
-      `${percentage}%`;
+      percentage + "%";
 
   }
 
@@ -1153,8 +1022,10 @@ async function sharePlace(id) {
 
 
   const text =
-
-    `${place.name} — ${place.upazila}, শেরপুর | MAMUN SHERPUR TOURIST`;
+    place.name +
+    " — " +
+    place.upazila +
+    ", শেরপুর | MAMUN SHERPUR TOURIST";
 
 
   if (navigator.share) {
@@ -1163,20 +1034,21 @@ async function sharePlace(id) {
 
       await navigator.share({
 
-        title: place.name,
+        title:
+          place.name,
 
-        text: text,
+        text:
+          text,
 
-        url: url
+        url:
+          url
 
       });
 
       return;
 
-    } catch (e) {
-
-      /* Share cancelled */
-
+    } catch (error) {
+      /* cancelled */
     }
 
   }
@@ -1192,7 +1064,7 @@ async function sharePlace(id) {
       "লিংক কপি হয়েছে ✅"
     );
 
-  } catch (e) {
+  } catch (error) {
 
     window.prompt(
       "এই লিংকটি কপি করুন:",
@@ -1216,11 +1088,10 @@ function printPage() {
 
 
 /* =========================================================
-   SEARCH / FILTER EVENTS
+   FILTER EVENTS
    ========================================================= */
 
 function setupFilters() {
-
 
   const searchInputs = [
 
@@ -1277,52 +1148,42 @@ function setupFilters() {
 
 
 /* =========================================================
-   AUTO FILTER OPTIONS
+   FILTER OPTIONS
    ========================================================= */
 
 function setupFilterOptions() {
 
   const categories = [
-
     "সব",
-
     ...new Set(
       places.map(
-        p => p.category
+        place =>
+          place.category
       )
     )
-
   ];
 
 
   const upazilas = [
-
     "সব",
-
     ...new Set(
       places.map(
-        p => p.upazila
+        place =>
+          place.upazila
       )
     )
-
   ];
 
 
   const categorySelect =
-
     $("categoryFilter") ||
-
     $("category") ||
-
     $("filterCategory");
 
 
   const upazilaSelect =
-
     $("upazilaFilter") ||
-
     $("upazila") ||
-
     $("filterUpazila");
 
 
@@ -1336,8 +1197,6 @@ function setupFilterOptions() {
     }
 
 
-    /* Existing custom options থাকলে পরিবর্তন করবে না */
-
     if (
       select.options.length > 1
     ) {
@@ -1346,18 +1205,13 @@ function setupFilterOptions() {
 
 
     select.innerHTML =
-
       values.map(
         value => `
-
           <option
             value="${escapeHTML(value)}"
           >
-
             ${escapeHTML(value)}
-
           </option>
-
         `
       ).join("");
 
@@ -1379,7 +1233,8 @@ function setupFilterOptions() {
 
 
 /* =========================================================
-   FACEBOOK + WHATSAPP FLOATING BUTTONS
+   FACEBOOK + WHATSAPP BUTTON
+   Does not change existing card/frame design
    ========================================================= */
 
 function setupContactButtons() {
@@ -1389,9 +1244,7 @@ function setupContactButtons() {
       "mamunContactButtons"
     )
   ) {
-
     return;
-
   }
 
 
@@ -1401,114 +1254,106 @@ function setupContactButtons() {
     );
 
 
-  style.id =
-    "mamunContactStyle";
-
-
   style.textContent = `
 
-    #mamunContactButtons{
+    #mamunContactButtons {
 
-      position:fixed;
+      position: fixed;
 
-      right:18px;
+      right: 18px;
 
-      bottom:18px;
+      bottom: 18px;
 
-      z-index:9999;
+      z-index: 9999;
 
-      display:flex;
+      display: flex;
 
-      flex-direction:column;
+      flex-direction: column;
 
-      gap:10px;
+      gap: 10px;
 
     }
 
 
-    #mamunContactButtons a{
+    #mamunContactButtons a {
 
-      width:50px;
+      width: 50px;
 
-      height:50px;
+      height: 50px;
 
-      border-radius:50%;
+      border-radius: 50%;
 
-      display:flex;
+      display: flex;
 
-      align-items:center;
+      align-items: center;
 
-      justify-content:center;
+      justify-content: center;
 
-      text-decoration:none;
+      text-decoration: none;
 
-      color:#fff;
+      color: white;
 
-      font-size:23px;
+      font-weight: 800;
 
-      font-weight:800;
+      font-size: 23px;
 
       box-shadow:
         0 5px 18px
         rgba(0,0,0,.25);
 
-      transition:
-        transform .2s ease,
-        box-shadow .2s ease;
-
       border:
-        2px solid
-        rgba(255,255,255,.9);
+        2px solid white;
+
+      transition:
+        transform .2s ease;
 
     }
 
 
-    #mamunContactButtons a:hover{
+    #mamunContactButtons a:hover {
 
       transform:
         scale(1.08);
 
-      box-shadow:
-        0 7px 22px
-        rgba(0,0,0,.32);
+    }
+
+
+    #mamunFacebook {
+
+      background:
+        #1877f2;
 
     }
 
 
-    #mamunFacebook{
+    #mamunWhatsApp {
 
-      background:#1877f2;
-
-    }
-
-
-    #mamunWhatsApp{
-
-      background:#25d366;
+      background:
+        #25d366;
 
     }
 
 
-    @media(max-width:600px){
+    @media(max-width:600px) {
 
-      #mamunContactButtons{
+      #mamunContactButtons {
 
-        right:12px;
+        right: 12px;
 
-        bottom:12px;
+        bottom: 12px;
 
-        gap:8px;
+        gap: 8px;
 
       }
 
 
-      #mamunContactButtons a{
+      #mamunContactButtons a {
 
-        width:46px;
+        width: 46px;
 
-        height:46px;
+        height: 46px;
 
-        font-size:21px;
+        font-size: 21px;
 
       }
 
@@ -1535,44 +1380,26 @@ function setupContactButtons() {
   box.innerHTML = `
 
     <a
-
       id="mamunFacebook"
-
       href="${facebookUrl}"
-
       target="_blank"
-
       rel="noopener noreferrer"
-
-      aria-label="Facebook"
-
       title="Facebook"
-
+      aria-label="Facebook"
     >
-
       f
-
     </a>
 
 
     <a
-
       id="mamunWhatsApp"
-
       href="${whatsappUrl}"
-
       target="_blank"
-
       rel="noopener noreferrer"
-
-      aria-label="WhatsApp"
-
       title="WhatsApp"
-
+      aria-label="WhatsApp"
     >
-
       ☎
-
     </a>
 
   `;
@@ -1586,7 +1413,7 @@ function setupContactButtons() {
 
 
 /* =========================================================
-   MOBILE MAP RESIZE
+   MOBILE MAP
    ========================================================= */
 
 window.addEventListener(
@@ -1600,11 +1427,8 @@ window.addEventListener(
     if (mapElement) {
 
       mapElement.style.height =
-
         window.innerWidth <= 700
-
           ? "300px"
-
           : "350px";
 
     }
@@ -1625,7 +1449,7 @@ window.addEventListener(
 
 
 /* =========================================================
-   HASH LINK SUPPORT
+   OPEN PLACE FROM URL HASH
    ========================================================= */
 
 function openPlaceFromHash() {
@@ -1648,7 +1472,8 @@ function openPlaceFromHash() {
 
   const place =
     places.find(
-      item => item.id === id
+      item =>
+        item.id === id
     );
 
 
@@ -1656,58 +1481,53 @@ function openPlaceFromHash() {
     !place ||
     !map
   ) {
-
     return;
-
   }
 
 
   map.setView(
-
     [
       place.lat,
       place.lon
     ],
-
     14
-
   );
 
 
   setTimeout(
     () => {
 
+      if (!markerLayer) {
+        return;
+      }
+
+
       const marker =
-
         markerLayer
+          .getLayers()
+          .find(layer => {
 
-          ? markerLayer
-              .getLayers()
-              .find(layer => {
-
-                const latlng =
-                  layer.getLatLng();
+            const latlng =
+              layer.getLatLng();
 
 
-                return (
+            return (
 
-                  Math.abs(
-                    latlng.lat -
-                    place.lat
-                  ) < 0.0001
+              Math.abs(
+                latlng.lat -
+                place.lat
+              ) < 0.0001
 
-                  &&
+              &&
 
-                  Math.abs(
-                    latlng.lng -
-                    place.lon
-                  ) < 0.0001
+              Math.abs(
+                latlng.lng -
+                place.lon
+              ) < 0.0001
 
-                );
+            );
 
-              })
-
-          : null;
+          });
 
 
       if (marker) {
@@ -1717,9 +1537,7 @@ function openPlaceFromHash() {
       }
 
     },
-
     400
-
   );
 
 }
@@ -1743,7 +1561,7 @@ window.applyFilters =
 
 
 /* =========================================================
-   START APPLICATION
+   START
    ========================================================= */
 
 document.addEventListener(
