@@ -295,3 +295,178 @@ stats();
 document.getElementById("modal").addEventListener("click",e=>{
 if(e.target.id==="modal")closeModal();
 });
+
+(function forceDesktopLikeMobileUI(){
+
+const css = document.createElement("style");
+css.id = "mamunDesktopLikeMobileCSS";
+
+css.textContent = `
+/* Same overall width rhythm on all screens */
+body{
+  overflow-x:hidden;
+}
+
+@media (max-width: 700px){
+
+  /* Keep the page visually close to desktop */
+  main,
+  .container,
+  .wrap,
+  .content,
+  section{
+    box-sizing:border-box;
+  }
+
+  /* Hero/header typography stays strong instead of becoming tiny */
+  h1{
+    font-size:clamp(30px,8vw,46px)!important;
+    line-height:1.08!important;
+  }
+
+  h2{
+    font-size:24px!important;
+  }
+
+  p{
+    font-size:14px;
+    line-height:1.55;
+  }
+
+  /* Search/filter row behaves like desktop */
+  #search,
+  #cat,
+  #up{
+    min-height:42px!important;
+    box-sizing:border-box;
+  }
+
+  /* Two cards per row on phones: much closer to desktop's grid */
+  #cards{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+
+    gap:12px!important;
+    width:100%!important;
+  }
+
+  .card{
+    width:100%!important;
+    min-width:0!important;
+    margin:0!important;
+    border-radius:14px!important;
+    overflow:hidden!important;
+  }
+
+  .card .photo{
+    height:145px!important;
+    min-height:145px!important;
+  }
+
+  .card .body{
+    padding:11px!important;
+  }
+
+  .card h3{
+    font-size:16px!important;
+    line-height:1.25!important;
+    margin:0 0 7px!important;
+  }
+
+  .card p{
+    font-size:12px!important;
+    line-height:1.45!important;
+    margin:7px 0!important;
+  }
+
+  .card .chip{
+    font-size:10px!important;
+    padding:3px 7px!important;
+  }
+
+  .card .buttons{
+    display:flex!important;
+    flex-wrap:wrap!important;
+    gap:5px!important;
+  }
+
+  .card .small{
+    font-size:11px!important;
+    padding:7px 8px!important;
+    white-space:nowrap;
+  }
+
+  /* Compact boxed map, same centered look */
+  #mapWrap{
+    width:calc(100% - 20px)!important;
+    margin:16px auto!important;
+    padding:7px!important;
+
+    border-radius:16px!important;
+  }
+
+  #map{
+    height:250px!important;
+    min-height:250px!important;
+    max-height:250px!important;
+    border-radius:11px!important;
+  }
+
+  /* Stats remain in one horizontal row like desktop */
+  #stats,
+  .stats{
+    display:grid!important;
+    grid-template-columns:repeat(4,minmax(0,1fr))!important;
+    gap:7px!important;
+  }
+
+  #stats > *,
+  .stats > *{
+    min-width:0!important;
+  }
+
+  /* Community section */
+  #mamunCommunity{
+    width:calc(100% - 20px)!important;
+    margin:18px auto!important;
+    box-sizing:border-box;
+  }
+
+  /* Floating contact buttons stay small and neat */
+  #mamunContactButtons{
+    right:10px!important;
+    bottom:12px!important;
+    gap:7px!important;
+  }
+
+  .mamun-contact-btn{
+    width:43px!important;
+    height:43px!important;
+    font-size:19px!important;
+  }
+}
+
+/* Very narrow phones: preserve the desktop visual language,
+   but use one card column to avoid unreadably tiny cards. */
+@media (max-width:380px){
+  #cards{
+    grid-template-columns:1fr!important;
+  }
+
+  .card .photo{
+    height:190px!important;
+    min-height:190px!important;
+  }
+
+
+  #stats,
+  .stats{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+}
+`;
+
+document.head.appendChild(css);
+
+})();
+
