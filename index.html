@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MAMUN SHERPUR TOURIST TOURIST — শেরপুর ভ্রমণ গাইড</title>
+<meta name="description" content="শেরপুর জেলার দর্শনীয়, ঐতিহাসিক, প্রাকৃতিক ও ঘোরার জায়গার ডিজিটাল গাইড।">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+:root{--bg:#06110c;--card:#0d2016;--card2:#123322;--text:#f5fff8;--muted:#abc3b4;--green:#48e18d;--green2:#b9ffd4;--line:#20422f;--gold:#f1c76b}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#06110c,#091811 60%,#06100b);color:var(--text);font-family:"Noto Sans Bengali",sans-serif}a{text-decoration:none;color:inherit}.container{width:min(1180px,92%);margin:auto}
+.hero{min-height:650px;position:relative;display:flex;align-items:center;overflow:hidden;background:radial-gradient(circle at 85% 20%,#26754c 0,#0b2a1a 28%,transparent 60%),linear-gradient(135deg,#06110c,#123a25)}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#0000 40%,#06110c 100%)}.nav{position:absolute;top:0;left:0;right:0;z-index:2;padding:18px 0}.navin{display:flex;align-items:center;justify-content:space-between}.brand{font-size:25px;font-weight:800}.brand span{color:var(--green)}.badge{display:inline-flex;padding:7px 13px;border-radius:999px;border:1px solid #64e8a055;background:#0a2517aa;color:var(--green2);font-size:13px}
+.hero-content{position:relative;z-index:1;padding:130px 0 80px;max-width:780px}.hero h1{font-size:clamp(44px,7vw,82px);line-height:1.04;margin:18px 0}.hero h1 span{color:var(--green)}.hero p{font-size:18px;line-height:1.9;color:#d4e7da;max-width:680px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}.btn{padding:12px 18px;border-radius:12px;border:1px solid transparent;font-family:inherit;font-weight:800;cursor:pointer;background:var(--green);color:#062014}.btn.secondary{background:#ffffff0e;color:white;border-color:#ffffff22}
+.stats{margin-top:-50px;position:relative;z-index:3}.statgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.stat{background:#0d2118ee;border:1px solid var(--line);border-radius:18px;padding:19px;backdrop-filter:blur(10px)}.stat b{display:block;font-size:28px;color:var(--green)}.stat span{color:var(--muted);font-size:13px}
+section{padding:70px 0}.title{font-size:34px;margin:0 0 8px}.sub{color:var(--muted);margin:0 0 24px}.toolbar{display:grid;grid-template-columns:1fr 190px 190px;gap:10px;margin-bottom:18px}.search,.select{width:100%;padding:13px 14px;border-radius:12px;border:1px solid var(--line);background:#0d2016;color:white;font-family:inherit}.mapbox{border:1px solid var(--line);border-radius:20px;overflow:hidden}.map{height:520px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:linear-gradient(180deg,#10261a,#0b1a12);display:flex;flex-direction:column}.photo{height:190px;position:relative;background:linear-gradient(135deg,#174d32,#0b2116);display:flex;align-items:flex-end;padding:15px;background-size:cover;background-position:center}.photo:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 35%,#000b)}.photo>*{position:relative;z-index:1}.photo .loc{font-weight:800}.body{padding:18px}.body h3{margin:0 0 7px;font-size:21px}.body p{color:var(--muted);font-size:14px;line-height:1.75}.chips{display:flex;flex-wrap:wrap;gap:6px}.chip{font-size:11px;padding:5px 9px;border-radius:999px;border:1px solid #3c7655;background:#153122;color:#c9f8d9}.buttons{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}.small{border:1px solid var(--line);border-radius:10px;padding:9px 11px;background:#122a1c;color:white;font-family:inherit;cursor:pointer}.primary{background:var(--green);color:#062014;border-color:var(--green)}.visited{outline:2px solid #48e18d55}
+.panelgrid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}.panel{background:#0d2016;border:1px solid var(--line);border-radius:20px;padding:24px}.panel p,.panel li{color:#c5d9cc;line-height:1.85}
+footer{border-top:1px solid var(--line);padding:32px 0;text-align:center;color:var(--muted)}
+.modal{display:none;position:fixed;inset:0;background:#000c;z-index:30;align-items:center;justify-content:center;padding:18px}.modal.show{display:flex}.modalbox{width:min(760px,100%);max-height:92vh;overflow:auto;background:#0b1d13;border:1px solid var(--line);border-radius:20px;padding:24px}.close{float:right;border:0;background:none;color:white;font-size:30px;cursor:pointer}.modalimg{height:240px;border-radius:14px;background-size:cover;background-position:center;margin:8px 0 20px}.modalbox p{color:#c6d9cc;line-height:1.9}.notice{padding:12px 14px;border-radius:12px;background:#132b1d;border:1px solid #27583c;color:#c9f8d9;margin-top:12px}
+@media(max-width:900px){.grid{grid-template-columns:1fr 1fr}.statgrid{grid-template-columns:1fr 1fr}.toolbar{grid-template-columns:1fr 1fr}.toolbar .search{grid-column:1/-1}.panelgrid{grid-template-columns:1fr}}
+@media(max-width:600px){.grid{grid-template-columns:1fr}.statgrid{grid-template-columns:1fr 1fr}.toolbar{grid-template-columns:1fr}.toolbar .search{grid-column:auto}.map{height:430px}.hero{min-height:590px}.hero p{font-size:16px}}
+</style>
+</head>
+<body>
+<header class="hero">
+<nav class="nav"><div class="container navin"><div class="brand">MAMUN <span>SHERPUR</span></div><div class="badge">🇧🇩 Sherpur Tourism</div></div></nav>
+<div class="container hero-content">
+<div class="badge">শেরপুর • প্রকৃতি • ইতিহাস • ঐতিহ্য • ভ্রমণ</div>
+<h1>শেরপুরকে জানুন,<br><span>শেরপুরকে ঘুরুন।</span></h1>
+<p>শেরপুর জেলার পাহাড়, বন, পার্ক, নদী, ঐতিহাসিক স্থাপনা ও স্থানীয় ঘোরার জায়গাগুলোকে এক জায়গায় খুঁজে দেখুন। আপনার ভ্রমণ করা স্থানগুলো মার্ক করে নিজের travel record তৈরি করুন।</p>
+<div class="actions"><a class="btn" href="#map">🗺️ ইন্টার‌্যাক্টিভ ম্যাপ</a><a class="btn secondary" href="#places">📍 সব জায়গা</a></div>
+</div></header>
+
+<div class="stats"><div class="container statgrid">
+<div class="stat"><b id="total">0</b><span>তালিকাভুক্ত স্থান</span></div><div class="stat"><b id="visited">0</b><span>আমি ঘুরেছি</span></div>
+<div class="stat"><b id="coverage">0%</b><span>ভ্রমণ কভারেজ</span></div><div class="stat"><b>5</b><span>উপজেলা/অঞ্চল ফোকাস</span></div>
+</div></div>
+
+<section id="map"><div class="container"><h2 class="title">🗺️ Interactive Sherpur Map</h2><p class="sub">Marker চাপলে জায়গার বিস্তারিত দেখুন।</p><div class="mapbox"><div id="map" class="map"></div></div></div></section>
+
+<section id="places"><div class="container"><h2 class="title">📍 শেরপুরের দর্শনীয় স্থান</h2><p class="sub">নাম, উপজেলা বা ক্যাটাগরি দিয়ে খুঁজুন।</p>
+<div class="toolbar"><input id="search" class="search" placeholder="🔎 জায়গার নাম / এলাকা খুঁজুন..."><select id="cat" class="select"><option value="all">সব ক্যাটাগরি</option><option>প্রকৃতি</option><option>ঐতিহাসিক</option><option>পার্ক</option><option>সংস্কৃতি</option><option>বিনোদন</option></select><select id="up" class="select"><option value="all">সব উপজেলা</option><option>শেরপুর সদর</option><option>নালিতাবাড়ী</option><option>ঝিনাইগাতী</option><option>শ্রীবরদী</option><option>নকলা</option></select></div>
+<div id="cards" class="grid"></div></div></section>
+
+<section><div class="container panelgrid">
+<div class="panel"><h2>🌿 Mamun Sherpur Tourist Tourist</h2><p>এটি শেরপুরকে কেন্দ্র করে তৈরি একটি digital tourism guide। ভবিষ্যতে প্রতিটি জায়গার verified ছবি, ইতিহাস, যাতায়াত, সময়সূচি, টিকিট, ভিডিও ও স্থানীয় travel tips যোগ করা যাবে।</p><p><b>Brand:</b> MAMUN SHERPUR TOURIST TOURIST<br><b>Focus:</b> Sherpur District, Bangladesh</p><div class="notice">ℹ️ প্রকাশের আগে স্থান, ঠিকানা ও coordinate স্থানীয়/সরকারি উৎস দিয়ে যাচাই করে নিন।</div></div>
+<div class="panel"><h2>📸 নিজের ছবি যোগ করুন</h2><p>প্রতিটি place-এর <b>image</b> field-এ আপনার তোলা ছবির URL বা `assets` folder-এর filename বসালেই card-এ ছবি দেখাবে।</p><p><b>উদাহরণ:</b> <code>assets/gajni.jpg</code></p><p>এতে আপনার নিজের photography-কে website-এর মূল visual identity বানানো যাবে।</p></div>
+</div></section>
+
+<footer>© <span id="year"></span> <b>MAMUN SHERPUR TOURIST TOURIST</b> — শেরপুরকে জানুন • শেরপুরকে ঘুরুন।</footer>
+
+<div id="modal" class="modal"><div class="modalbox"><button class="close" onclick="closeModal()">×</button><div id="modalBody"></div></div></div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script src="script.js"></script>
+</body></html>
