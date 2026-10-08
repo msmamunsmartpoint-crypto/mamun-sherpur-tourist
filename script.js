@@ -24,609 +24,216 @@ const places=[
 const key="mamunSherpurVisitedV2";
 let visited=JSON.parse(localStorage.getItem(key)||"[]");
 
-/* Facebook + WhatsApp */
 const facebookUrl="https://www.facebook.com/fbyourmamun";
 const whatsappUrl="https://wa.me/8801410452007";
 
+/* ছোট ও responsive map */
+const mapStyle=document.createElement("style");
+mapStyle.textContent=`
+#map{
+height:330px!important;
+min-height:330px!important;
+max-height:330px!important;
+width:100%!important;
+border-radius:16px;
+overflow:hidden;
+}
+@media(max-width:600px){
+#map{
+height:270px!important;
+min-height:270px!important;
+max-height:270px!important;
+}
+}
+`;
+document.head.appendChild(mapStyle);
+
 const map=L.map("map").setView([25.06,90.03],10);
-
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
-attribution:"© OpenStreetMap contributors"
-}).addTo(map);
-
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:"© OpenStreetMap contributors"}).addTo(map);
 const layer=L.layerGroup().addTo(map);
 
-const esc=s=>String(s).replace(/[&<>"']/g,m=>({
-"&":"&amp;",
-"<":"&lt;",
-">":"&gt;",
-'"':"&quot;",
-"'":"&#039;"
-}[m]));
-
+const esc=s=>String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
 const safe=s=>String(s).replace(/'/g,"\\'");
-
 const isVisited=n=>visited.includes(n);
-
 const mapUrl=q=>"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(q);
-
 const videoUrl=q=>"https://www.youtube.com/results?search_query="+encodeURIComponent(q+" Sherpur");
 
-
 function toggleVisited(n){
-
-visited=isVisited(n)
-?visited.filter(x=>x!==n)
-:[...visited,n];
-
+visited=isVisited(n)?visited.filter(x=>x!==n):[...visited,n];
 localStorage.setItem(key,JSON.stringify(visited));
-
 render();
-
 stats();
-
 }
-
 
 function photoStyle(p){
-
-return p.image
-?`background-image:linear-gradient(#0000,#0009),url('${p.image}')`
-:"";
-
+return p.image?`background-image:linear-gradient(#0000,#0009),url('${p.image}')`:"";
 }
-
 
 function openModal(p){
-
 document.getElementById("modalBody").innerHTML=`
-
 <h2>${esc(p.name)}</h2>
-
 <div class="modalimg" style="${photoStyle(p)}"></div>
-
-<div class="chips">
-
-<span class="chip">${esc(p.category)}</span>
-
-<span class="chip">${esc(p.upazila)}</span>
-
-</div>
-
+<div class="chips"><span class="chip">${esc(p.category)}</span><span class="chip">${esc(p.upazila)}</span></div>
 <p>${esc(p.desc)}</p>
-
-<p>
-<b>📍 এলাকা:</b>
-${esc(p.upazila)}, শেরপুর
-</p>
-
+<p><b>📍 এলাকা:</b> ${esc(p.upazila)}, শেরপুর</p>
 <div class="buttons">
-
-<a
-class="small primary"
-target="_blank"
-href="${mapUrl(p.maps)}"
->
-🗺️ Google Maps
-</a>
-
-<a
-class="small"
-target="_blank"
-href="${videoUrl(p.name)}"
->
-▶️ YouTube ভিডিও
-</a>
-
-<button
-class="small"
-onclick="toggleVisited('${safe(p.name)}');closeModal()"
->
-${isVisited(p.name)?"↩️ আনমার্ক":"✅ আমি ঘুরেছি"}
-</button>
-
-<button
-class="small"
-onclick="sharePlace('${safe(p.name)}')"
->
-↗️ Share
-</button>
-
-<button
-class="small"
-onclick="window.print()"
->
-🖨️ Print
-</button>
-
+<a class="small primary" target="_blank" href="${mapUrl(p.maps)}">🗺️ Google Maps</a>
+<a class="small" target="_blank" href="${videoUrl(p.name)}">▶️ YouTube ভিডিও</a>
+<button class="small" onclick="toggleVisited('${safe(p.name)}');closeModal()"> ${isVisited(p.name)?"↩️ আনমার্ক":"✅ আমি ঘুরেছি"}</button>
+<button class="small" onclick="sharePlace('${safe(p.name)}')">↗️ Share</button>
+<button class="small" onclick="window.print()">🖨️ Print</button>
 </div>
-
-<div class="notice">
-📸 ছবি যোগ করতে script.js-এর এই জায়গার
-<b>image</b>
-field-এ আপনার ছবি/URL দিন।
-</div>
-
-`;
-
+<div class="notice">📸 ছবি যোগ করতে script.js-এর এই জায়গার <b>image</b> field-এ আপনার ছবি/URL দিন।</div>`;
 document.getElementById("modal").classList.add("show");
-
 }
-
 
 function closeModal(){
-
 document.getElementById("modal").classList.remove("show");
-
 }
 
-
 function sharePlace(n){
-
 const u=location.href.split("#")[0];
-
 if(navigator.share){
-
 navigator.share({
 title:"MAMUN SHERPUR TOURIST — "+n,
 text:"শেরপুরের "+n,
 url:u+"#places"
 });
-
 }else{
-
-navigator.clipboard?.writeText(
-u+"#places"
-).then(
-()=>alert("লিংক কপি হয়েছে")
-);
-
+navigator.clipboard?.writeText(u+"#places").then(()=>alert("লিংক কপি হয়েছে"));
 }
-
 }
-
 
 function markers(){
-
 layer.clearLayers();
-
 places.forEach(p=>{
-
-const m=L.marker([
-p.lat,
-p.lon
-]).addTo(layer);
-
-m.bindPopup(`
-
-<b>${esc(p.name)}</b>
-<br>
-${esc(p.upazila)}
-<br>
-
-<button
-onclick="openByName('${safe(p.name)}')"
->
-বিস্তারিত
-</button>
-
-`);
-
+const m=L.marker([p.lat,p.lon]).addTo(layer);
+m.bindPopup(`<b>${esc(p.name)}</b><br>${esc(p.upazila)}<br><button onclick="openByName('${safe(p.name)}')">বিস্তারিত</button>`);
 });
-
 }
-
 
 function openByName(n){
-
-const p=places.find(
-x=>x.name===n
-);
-
+const p=places.find(x=>x.name===n);
 if(p)openModal(p);
-
 }
-
 
 function render(){
-
-const q=
-document.getElementById("search")
-.value
-.toLowerCase()
-.trim();
-
-const c=
-document.getElementById("cat")
-.value;
-
-const u=
-document.getElementById("up")
-.value;
-
+const q=document.getElementById("search").value.toLowerCase().trim();
+const c=document.getElementById("cat").value;
+const u=document.getElementById("up").value;
 
 const arr=places.filter(p=>
-
-(c==="all"||p.category===c)
-
-&&
-
-(u==="all"||p.upazila===u)
-
-&&
-
-(
-!q
-
-||
-
-p.name
-.toLowerCase()
-.includes(q)
-
-||
-
-p.upazila
-.toLowerCase()
-.includes(q)
-)
-
+(c==="all"||p.category===c)&&
+(u==="all"||p.upazila===u)&&
+(!q||p.name.toLowerCase().includes(q)||p.upazila.toLowerCase().includes(q))
 );
 
-
-document.getElementById("cards").innerHTML=
-
-arr.map(p=>`
-
-<article
-class="card ${isVisited(p.name)?"visited":""}"
->
-
-<div
-class="photo"
-style="${photoStyle(p)}"
->
-
-<div class="loc">
-
-📍 ${esc(p.name)}
-
-<br>
-
-<small>
-${esc(p.upazila)}, শেরপুর
-</small>
-
+document.getElementById("cards").innerHTML=arr.map(p=>`
+<article class="card ${isVisited(p.name)?"visited":""}">
+<div class="photo" style="${photoStyle(p)}">
+<div class="loc">📍 ${esc(p.name)}<br><small>${esc(p.upazila)}, শেরপুর</small></div>
 </div>
-
-</div>
-
-
 <div class="body">
-
-<h3>
-${esc(p.name)}
-</h3>
-
-
-<div class="chips">
-
-<span class="chip">
-${esc(p.category)}
-</span>
-
-<span class="chip">
-${esc(p.upazila)}
-</span>
-
-</div>
-
-
-<p>
-${esc(p.desc)}
-</p>
-
-
+<h3>${esc(p.name)}</h3>
+<div class="chips"><span class="chip">${esc(p.category)}</span><span class="chip">${esc(p.upazila)}</span></div>
+<p>${esc(p.desc)}</p>
 <div class="buttons">
-
-
-<button
-class="small primary"
-onclick="openByName('${safe(p.name)}')"
->
-বিস্তারিত
-</button>
-
-
-<button
-class="small"
-onclick="toggleVisited('${safe(p.name)}')"
->
-${isVisited(p.name)
-?"✓ ঘোরা হয়েছে"
-:"আমি ঘুরেছি"}
-</button>
-
-
-<a
-class="small"
-target="_blank"
-href="${mapUrl(p.maps)}"
->
-📍 Map
-</a>
-
-
+<button class="small primary" onclick="openByName('${safe(p.name)}')">বিস্তারিত</button>
+<button class="small" onclick="toggleVisited('${safe(p.name)}')">${isVisited(p.name)?"✓ ঘোরা হয়েছে":"আমি ঘুরেছি"}</button>
+<a class="small" target="_blank" href="${mapUrl(p.maps)}">📍 Map</a>
 </div>
-
 </div>
-
-</article>
-
-`).join("")
-
-||
-
-"<p>কোনো স্থান পাওয়া যায়নি।</p>";
-
+</article>`).join("")||"<p>কোনো স্থান পাওয়া যায়নি।</p>";
 }
-
 
 function stats(){
-
-const v=
-places.filter(
-p=>isVisited(p.name)
-).length;
-
-
-document.getElementById("total")
-.textContent=places.length;
-
-document.getElementById("visited")
-.textContent=v;
-
-document.getElementById("coverage")
-.textContent=
-Math.round(
-v/places.length*100
-)+"%";
-
+const v=places.filter(p=>isVisited(p.name)).length;
+document.getElementById("total").textContent=places.length;
+document.getElementById("visited").textContent=v;
+document.getElementById("coverage").textContent=Math.round(v/places.length*100)+"%";
 }
 
-
-/* =========================================================
-   FACEBOOK + WHATSAPP FLOATING BUTTONS
-   Existing card/frame design is unchanged
-   ========================================================= */
-
+/* Facebook + WhatsApp floating buttons */
 function addContactButtons(){
+if(document.getElementById("mamunContactButtons"))return;
 
-if(
-document.getElementById(
-"mamunContactButtons"
-)
-)return;
-
-
-const style=
-document.createElement("style");
-
-
+const style=document.createElement("style");
 style.textContent=`
-
 #mamunContactButtons{
-
 position:fixed;
-
 right:18px;
-
 bottom:18px;
-
 z-index:99999;
-
 display:flex;
-
 flex-direction:column;
-
 gap:10px;
-
 }
-
-
 .mamun-contact-btn{
-
 width:50px;
-
 height:50px;
-
 border-radius:50%;
-
 display:flex;
-
 align-items:center;
-
 justify-content:center;
-
 text-decoration:none;
-
-color:#fff !important;
-
+color:#fff!important;
 font-size:24px;
-
 font-weight:bold;
-
-box-shadow:
-0 5px 18px
-rgba(0,0,0,.30);
-
-border:
-2px solid #fff;
-
-transition:
-transform .2s ease,
-box-shadow .2s ease;
-
+box-shadow:0 5px 18px rgba(0,0,0,.30);
+border:2px solid #fff;
+transition:transform .2s ease,box-shadow .2s ease;
 }
-
-
 .mamun-contact-btn:hover{
-
 transform:scale(1.08);
-
-box-shadow:
-0 7px 22px
-rgba(0,0,0,.38);
-
+box-shadow:0 7px 22px rgba(0,0,0,.38);
 }
-
-
-.mamun-facebook{
-
-background:#1877f2;
-
-}
-
-
-.mamun-whatsapp{
-
-background:#25D366;
-
-}
-
-
+.mamun-facebook{background:#1877f2;}
+.mamun-whatsapp{background:#25D366;}
 @media(max-width:600px){
-
-#mamunContactButtons{
-
-right:12px;
-
-bottom:12px;
-
-gap:8px;
-
+#mamunContactButtons{right:12px;bottom:12px;gap:8px;}
+.mamun-contact-btn{width:46px;height:46px;font-size:21px;}
 }
-
-
-.mamun-contact-btn{
-
-width:46px;
-
-height:46px;
-
-font-size:21px;
-
-}
-
-}
-
 `;
-
 
 document.head.appendChild(style);
 
-
-const box=
-document.createElement("div");
-
-
-box.id=
-"mamunContactButtons";
-
+const box=document.createElement("div");
+box.id="mamunContactButtons";
 
 box.innerHTML=`
-
-<a
-
-class="mamun-contact-btn mamun-facebook"
-
+<a class="mamun-contact-btn mamun-facebook"
 href="${facebookUrl}"
-
 target="_blank"
-
 rel="noopener noreferrer"
-
 title="Facebook"
+aria-label="Facebook">f</a>
 
-aria-label="Facebook"
-
->
-f
-</a>
-
-
-<a
-
-class="mamun-contact-btn mamun-whatsapp"
-
+<a class="mamun-contact-btn mamun-whatsapp"
 href="${whatsappUrl}"
-
 target="_blank"
-
 rel="noopener noreferrer"
-
 title="WhatsApp"
-
-aria-label="WhatsApp"
-
->
-☏
-</a>
-
+aria-label="WhatsApp">☏</a>
 `;
 
-
 document.body.appendChild(box);
-
 }
-
-
-/* =========================================================
-   START
-   ========================================================= */
 
 ["search","cat","up"].forEach(id=>{
-
-const element=
-document.getElementById(id);
-
+const element=document.getElementById(id);
 if(element){
-
-element.addEventListener(
-"input",
-render
-);
-
-element.addEventListener(
-"change",
-render
-);
-
+element.addEventListener("input",render);
+element.addEventListener("change",render);
 }
-
 });
 
-
-document.getElementById("year").textContent=
-new Date().getFullYear();
-
+document.getElementById("year").textContent=new Date().getFullYear();
 
 addContactButtons();
-
 markers();
-
 render();
-
 stats();
 
-
-document.getElementById("modal").addEventListener(
-"click",
-e=>{
-
-if(e.target.id==="modal"){
-closeModal();
-}
-
-}
-);
+document.getElementById("modal").addEventListener("click",e=>{
+if(e.target.id==="modal")closeModal();
+});
