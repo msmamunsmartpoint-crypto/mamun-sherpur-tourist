@@ -35,6 +35,95 @@ footer{border-top:1px solid var(--line);padding:32px 0;text-align:center;color:v
 .modal{display:none;position:fixed;inset:0;background:#000c;z-index:30;align-items:center;justify-content:center;padding:18px}.modal.show{display:flex}.modalbox{width:min(760px,100%);max-height:92vh;overflow:auto;background:#0b1d13;border:1px solid var(--line);border-radius:20px;padding:24px}.close{float:right;border:0;background:none;color:white;font-size:30px;cursor:pointer}.modalimg{height:240px;border-radius:14px;background-size:cover;background-position:center;margin:8px 0 20px}.modalbox p{color:#c6d9cc;line-height:1.9}.notice{padding:12px 14px;border-radius:12px;background:#132b1d;border:1px solid #27583c;color:#c9f8d9;margin-top:12px}
 @media(max-width:900px){.grid{grid-template-columns:1fr 1fr}.statgrid{grid-template-columns:1fr 1fr}.toolbar{grid-template-columns:1fr 1fr}.toolbar .search{grid-column:1/-1}.panelgrid{grid-template-columns:1fr}}
 @media(max-width:600px){.grid{grid-template-columns:1fr}.statgrid{grid-template-columns:1fr 1fr}.toolbar{grid-template-columns:1fr}.toolbar .search{grid-column:auto}.map{height:430px}.hero{min-height:590px}.hero p{font-size:16px}}
+.about-sherpur{
+  padding:75px 0;
+  background:linear-gradient(180deg,#081910,#0c2116);
+}
+.about-intro{
+  max-width:820px;
+  margin:0 auto 30px;
+  text-align:center;
+}
+.about-intro .eyebrow{
+  display:inline-block;
+  color:#b9ffd4;
+  background:#153322;
+  border:1px solid #28563b;
+  border-radius:999px;
+  padding:7px 14px;
+  font-size:13px;
+}
+.about-intro h2{
+  font-size:clamp(28px,4vw,42px);
+  margin:16px 0;
+  line-height:1.35;
+}
+.about-intro h2 span{color:#48e18d}
+.about-intro p{
+  color:#c1d6c8;
+  line-height:1.95;
+  font-size:16px;
+}
+.about-highlights{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
+  margin-top:30px;
+}
+.about-item{
+  padding:23px;
+  border:1px solid #20422f;
+  border-radius:18px;
+  background:linear-gradient(145deg,#10291b,#0b1c12);
+  transition:transform .2s,border-color .2s;
+}
+.about-item:hover{
+  transform:translateY(-4px);
+  border-color:#48e18d;
+}
+.about-icon{font-size:30px}
+.about-item h3{margin:12px 0 8px;font-size:20px}
+.about-item p{
+  color:#abc3b4;
+  line-height:1.8;
+  font-size:14px;
+  margin:0;
+}
+.about-upazilas{
+  margin-top:22px;
+  padding:22px;
+  border-radius:18px;
+  border:1px solid #20422f;
+  background:#0d2016;
+  text-align:center;
+}
+.about-tags{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:9px;
+  margin-top:14px;
+}
+.about-tags span{
+  border:1px solid #326847;
+  border-radius:999px;
+  padding:8px 13px;
+  color:#c9f8d9;
+  background:#153322;
+  font-size:13px;
+}
+.about-cta{
+  margin-top:25px;
+  text-align:center;
+  color:#c1d6c8;
+  line-height:1.8;
+}
+@media(max-width:700px){
+  .about-sherpur{padding:48px 0}
+  .about-highlights{grid-template-columns:1fr}
+  .about-item{padding:19px}
+  .about-intro p{font-size:14px}
+}
 </style>
 </head>
 <body>
@@ -62,6 +151,87 @@ footer{border-top:1px solid var(--line);padding:32px 0;text-align:center;color:v
 <div class="stat"><b id="coverage">0%</b><span>ভ্রমণ কভারেজ</span></div><div class="stat"><b>5</b><span>উপজেলা/অঞ্চল ফোকাস</span></div>
 </div></div>
 
+
+<section class="about-sherpur" id="about-sherpur">
+  <div class="container">
+
+    <div class="about-intro">
+      <span class="eyebrow">🌿 বাংলাদেশের উত্তর সীমান্তের সৌন্দর্য</span>
+      <h2>শেরপুর সম্পর্কে <span>বিস্তারিত জানুন</span></h2>
+
+      <p>
+        শেরপুর বাংলাদেশের উত্তর সীমান্তের একটি ঐতিহ্যবাহী জেলা।
+        গারো পাহাড়ের সবুজ টিলা, বনভূমি, নদ-নদী, গ্রামীণ প্রকৃতি,
+        ঐতিহাসিক স্থাপনা ও বৈচিত্র্যময় স্থানীয় সংস্কৃতি এ জেলার
+        স্বতন্ত্র পরিচয় গড়ে তুলেছে। প্রকৃতিপ্রেমী, ইতিহাস অনুরাগী
+        কিংবা পরিবার নিয়ে ভ্রমণ করতে আগ্রহী সবার জন্য শেরপুরে
+        রয়েছে আবিষ্কারের মতো নানা জায়গা।
+      </p>
+
+      <p>
+        গজনী অবকাশ কেন্দ্র, মধুটিলা ইকোপার্ক, পানিহাটা–তারানি পাহাড়,
+        রাজা পাহাড় ও বাবেলাকোনার মতো দর্শনীয় স্থান সম্পর্কে জানুন।
+        <b>MAMUN SHERPUR TOURIST</b>-এর মাধ্যমে স্থান খুঁজুন,
+        ভ্রমণের পরিকল্পনা করুন এবং ঘুরে দেখা জায়গাগুলো সংরক্ষণ করুন।
+      </p>
+    </div>
+
+    <div class="about-highlights">
+
+      <article class="about-item">
+        <div class="about-icon">🏞️</div>
+        <h3>পাহাড় ও প্রকৃতি</h3>
+        <p>
+          গারো পাহাড়ের সবুজ টিলা, বনভূমি, কুয়াশামাখা সকাল
+          এবং প্রাকৃতিক পরিবেশ উপভোগ করুন।
+        </p>
+      </article>
+
+      <article class="about-item">
+        <div class="about-icon">🏛️</div>
+        <h3>ইতিহাস ও ঐতিহ্য</h3>
+        <p>
+          শেরপুরের ঐতিহাসিক স্থাপনা, ধর্মীয় নিদর্শন,
+          স্থানীয় ঐতিহ্য ও মুক্তিযুদ্ধের স্মৃতিবিজড়িত স্থান চিনুন।
+        </p>
+      </article>
+
+      <article class="about-item">
+        <div class="about-icon">🧭</div>
+        <h3>ভ্রমণ পরিকল্পনা</h3>
+        <p>
+          জায়গার তালিকা দেখুন, ম্যাপে অবস্থান খুঁজুন,
+          বিস্তারিত তথ্য জানুন এবং নিজের ভ্রমণ রেকর্ড তৈরি করুন।
+        </p>
+      </article>
+
+    </div>
+
+    <div class="about-upazilas">
+      <h3>📍 শেরপুর জেলার পাঁচটি উপজেলা</h3>
+      <p>জেলার বিভিন্ন অঞ্চলের দর্শনীয় স্থান খুঁজে দেখুন।</p>
+
+      <div class="about-tags">
+        <span>শেরপুর সদর</span>
+        <span>নকলা</span>
+        <span>নালিতাবাড়ী</span>
+        <span>শ্রীবরদী</span>
+        <span>ঝিনাইগাতী</span>
+      </div>
+    </div>
+
+    <div class="about-cta">
+      <strong>শেরপুরকে জানুন, শেরপুরকে ঘুরুন!</strong>
+      <br>
+      আপনার পরবর্তী ভ্রমণ শুরু হোক
+      <b>MAMUN SHERPUR TOURIST</b>-এর সঙ্গে।
+      <br><br>
+      <a class="btn" href="#places">📍 দর্শনীয় স্থান দেখুন</a>
+      <a class="btn secondary" href="#map">🗺️ ম্যাপ দেখুন</a>
+    </div>
+
+  </div>
+</section>
 <section id="map"><div class="container"><h2 class="title">🗺️ Interactive Sherpur Map</h2><p class="sub">Marker চাপলে জায়গার বিস্তারিত দেখুন।</p><div class="mapbox"><div id="map" class="map"></div></div></div></section>
 
 <section id="places"><div class="container"><h2 class="title">📍 শেরপুরের দর্শনীয় স্থান</h2><p class="sub">নাম, উপজেলা বা ক্যাটাগরি দিয়ে খুঁজুন।</p>
