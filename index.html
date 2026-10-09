@@ -11,7 +11,23 @@
 <style>
 :root{--bg:#06110c;--card:#0d2016;--card2:#123322;--text:#f5fff8;--muted:#abc3b4;--green:#48e18d;--green2:#b9ffd4;--line:#20422f;--gold:#f1c76b}
 *{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#06110c,#091811 60%,#06100b);color:var(--text);font-family:"Noto Sans Bengali",sans-serif}a{text-decoration:none;color:inherit}.container{width:min(1180px,92%);margin:auto}
-.hero{min-height:650px;position:relative;display:flex;align-items:center;overflow:hidden;background:radial-gradient(circle at 85% 20%,#26754c 0,#0b2a1a 28%,transparent 60%),linear-gradient(135deg,#06110c,#123a25)}
+```css
+.hero{
+  min-height:650px;
+  position:relative;
+  display:flex;
+  align-items:center;
+  overflow:hidden;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(3,20,15,0.88) 0%,
+      rgba(3,20,15,0.58) 48%,
+      rgba(3,20,15,0.18) 100%
+    ),
+    url("assets/sherpur-nature-bg.png") center center / cover no-repeat;
+}
+```
 .hero:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#0000 40%,#06110c 100%)}.nav{position:absolute;top:0;left:0;right:0;z-index:2;padding:18px 0}.navin{display:flex;align-items:center;justify-content:space-between}.brand{font-size:25px;font-weight:800}.brand span{color:var(--green)}.badge{display:inline-flex;padding:7px 13px;border-radius:999px;border:1px solid #64e8a055;background:#0a2517aa;color:var(--green2);font-size:13px}
 .hero-content{position:relative;z-index:1;padding:130px 0 80px;max-width:780px}.hero h1{font-size:clamp(44px,7vw,82px);line-height:1.04;margin:18px 0}.hero h1 span{color:var(--green)}.hero p{font-size:18px;line-height:1.9;color:#d4e7da;max-width:680px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}.btn{padding:12px 18px;border-radius:12px;border:1px solid transparent;font-family:inherit;font-weight:800;cursor:pointer;background:var(--green);color:#062014}.btn.secondary{background:#ffffff0e;color:white;border-color:#ffffff22}
 .stats{margin-top:-50px;position:relative;z-index:3}.statgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.stat{background:#0d2118ee;border:1px solid var(--line);border-radius:18px;padding:19px;backdrop-filter:blur(10px)}.stat b{display:block;font-size:28px;color:var(--green)}.stat span{color:var(--muted);font-size:13px}
