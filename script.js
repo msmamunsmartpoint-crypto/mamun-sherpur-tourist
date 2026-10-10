@@ -18,7 +18,18 @@ const places=[
 {name:"Dikpara Bil",upazila:"শেরপুর সদর",category:"প্রকৃতি",lat:25.03,lon:90.1,image:"",desc:"বিল ও জলাভূমির প্রাকৃতিক দৃশ্য উপভোগের একটি স্থানীয় স্থান।",maps:"Dikpara Bil Sherpur"},
 {name:"শহীদ সরণী",upazila:"শেরপুর সদর",category:"ঐতিহাসিক",lat:25.02,lon:90.01,image:"",desc:"শহরের ইতিহাস ও স্মৃতির সঙ্গে যুক্ত একটি স্থান।",maps:"Shahid Sharani Sherpur"},
 {name:"শেরপুর কেন্দ্রীয় শহীদ মিনার",upazila:"শেরপুর সদর",category:"সংস্কৃতি",lat:25.02,lon:90.01,image:"",desc:"ভাষা আন্দোলনের স্মৃতিবাহী সাংস্কৃতিক ও নাগরিক স্থান।",maps:"Sherpur Central Shaheed Minar"},
-{name:"পায়রা চত্বর",upazila:"শেরপুর সদর",category:"বিনোদন",lat:25.02,lon:90.005,image:"",desc:"শহরের একটি পরিচিত নাগরিক landmark।",maps:"Pigeons Square Sherpur"}
+{name:"পায়রা চত্বর",upazila:"শেরপুর সদর",category:"বিনোদন",lat:25.02,lon:90.005,image:"",desc:"শহরের একটি পরিচিত নাগরিক landmark।",maps:"Pigeons Square Sherpur"},
+{
+  name: "মামুন স্মার্টপয়েন্ট",
+  upazila: "শ্রীবরদী",
+  address: "কক্সবাজার সুপারমার্কেট, চর শিমুল চূড়া, শ্রীবরদী - শেরপুর",
+  category: "সেবা কেন্দ্র",
+  lat: 25.110843,
+  lon: 89.899210,
+  image: "",
+  desc: "মোবাইল ও কম্পিউটার সার্ভিসিং, সফটওয়্যার, অনলাইন আবেদন, SIM-সংক্রান্ত সেবা, মোবাইল রিচার্জ, প্রিন্টিং, টাইপিং এবং স্মার্টফোন ও অ্যাক্সেসরিজ কেনাবেচা।",
+  maps: "https://maps.app.goo.gl/qgSpxiU7q64mVKug8"
+}
 ];
 
 const key="mamunSherpurVisitedV4";
