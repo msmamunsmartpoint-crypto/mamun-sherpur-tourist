@@ -40,7 +40,7 @@ const whatsappUrl="https://wa.me/8801410452007";
 const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
 const safe=s=>String(s??"").replace(/\\/g,"\\\\").replace(/'/g,"\\'");
 const isVisited=n=>visited.includes(n);
-const mapUrl=q=>"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(q);
+const mapUrl=q=>String(q||"").startsWith("https://")?q:"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(q);
 const videoUrl=q=>"https://www.youtube.com/results?search_query="+encodeURIComponent(q+" Sherpur");
 
 function toggleVisited(n){
@@ -51,6 +51,44 @@ function photoStyle(p){return p.image?`background-image:linear-gradient(#0000,#0
 
 function detailData(p){
   let highlights=[];
+  if (p.category === "সেবা কেন্দ্র") {
+    return {
+      intro: "মামুন স্মার্টপয়েন্ট একটি মোবাইল, কম্পিউটার ও অনলাইন সেবা কেন্দ্র। এখানে বিভিন্ন প্রযুক্তিগত সহায়তা ও ডিজিটাল সেবা পাওয়া যায়।",
+      history: "মামুন স্মার্টপয়েন্ট — মোবাইল ও কম্পিউটার সাপোর্ট, অনলাইন আবেদন এবং প্রযুক্তিসেবার নির্ভরযোগ্য ঠিকানা।",
+      highlights: [
+        "মোবাইল সার্ভিসিং ও সমস্যা সমাধান",
+        "সফটওয়্যার ও মোবাইল সেটিংস সাপোর্ট",
+        "নতুন ও ব্যবহৃত স্মার্টফোন কেনাবেচা",
+        "SIM রেজিস্ট্রেশন ও রিপ্লেসমেন্ট-সংক্রান্ত সেবা",
+        "বিকাশ, নগদ, রকেট ও মোবাইল রিচার্জ-সংক্রান্ত সেবা",
+        "পাসপোর্ট ও জন্মনিবন্ধন-সংক্রান্ত অনলাইন আবেদন",
+        "শিক্ষা বোর্ডের ফর্ম ও অন্যান্য অনলাইন আবেদন",
+        "CV তৈরি, টাইপিং ও প্রিন্টিং",
+        "মোবাইল অ্যাক্সেসরিজ ও প্রযুক্তিপণ্য",
+        "কম্পিউটার ও অন্যান্য প্রযুক্তিগত সহায়তা"
+      ],
+      howToGo: "ঠিকানা: কক্সবাজার সুপারমার্কেট, চর শিমুল চূড়া, শ্রীবরদী - শেরপুর।",
+      transport: "শ্রীবরদী এলাকার কক্সবাজার সুপারমার্কেট, চর শিমুল চূড়ায় আসুন।",
+      bestTime: "দোকানে যাওয়ার আগে খোলার সময় নিশ্চিত করে নিন।",
+      entryFee: "প্রবেশমূল্য নেই। বিভিন্ন কাজের সার্ভিস চার্জ আলাদা হতে পারে।",
+      facilities: [
+        "মোবাইল ও কম্পিউটার সাপোর্ট",
+        "অনলাইন আবেদন ও ফর্ম পূরণ",
+        "টাইপিং ও প্রিন্টিং",
+        "স্মার্টফোন ও অ্যাক্সেসরিজ কেনাবেচা"
+      ],
+      food: "দোকানের আশপাশের বাজারে খাবারের ব্যবস্থা খুঁজে নিতে পারবেন।",
+      stay: "এটি একটি সেবা কেন্দ্র; থাকার ব্যবস্থা নেই।",
+      safety: "অনলাইন আবেদনের তথ্য জমা দেওয়ার আগে যাচাই করুন। নিজের পাসওয়ার্ড ও OTP গোপন রাখুন।",
+      tips: [
+        "প্রয়োজনীয় কাগজপত্র সঙ্গে আনুন",
+        "কাজের চার্জ আগে জেনে নিন",
+        "ফোন জমা দেওয়ার আগে গুরুত্বপূর্ণ ডেটা ব্যাকআপ রাখুন",
+        "OTP ও পাসওয়ার্ড কারও সঙ্গে শেয়ার করবেন না"
+      ],
+      gallery: p.image ? [p.image] : []
+    };
+  }
   if(p.category==="প্রকৃতি") highlights=["প্রাকৃতিক দৃশ্য","সবুজ পরিবেশ","ছবি তোলার সুযোগ","স্থানীয় ভূপ্রকৃতি"];
   else if(p.category==="পার্ক") highlights=["পার্কের পরিবেশ","বিনোদন সুবিধা","পরিবার নিয়ে সময় কাটানোর সুযোগ","ছবি তোলার জায়গা"];
   else if(p.category==="ঐতিহাসিক") highlights=["ঐতিহাসিক স্মৃতি","স্থানীয় ঐতিহ্য","স্থাপনা/স্মৃতিচিহ্ন","ছবি তোলার সুযোগ"];
@@ -77,30 +115,43 @@ function detailList(arr){return arr&&arr.length?"<ul>"+arr.map(x=>"<li>"+esc(x)+
 function openFullDetails(p){
   if(!p)return;
   const d=detailData(p), hero=d.gallery[0]||"";
+  const isService=p.category==="সেবা কেন্দ্র";
   const gallery=d.gallery.map(x=>`<img src="${esc(x)}" alt="${esc(p.name)}">`).join("");
+  const serviceInfo=isService?`
+    <div class="mst-box"><h3>📍 সম্পূর্ণ ঠিকানা</h3><p>${esc(p.address||"কক্সবাজার সুপারমার্কেট, চর শিমুল চূড়া, শ্রীবরদী - শেরপুর")}</p></div>
+    <div class="mst-box"><h3>🛠️ আমাদের সকল সেবা</h3>${detailList(p.services||d.highlights)}</div>
+    <div class="mst-box"><h3>📱 মোবাইল ও কম্পিউটার সেবা</h3><p>মোবাইল সার্ভিসিং, সফটওয়্যার ও সেটিংস সাপোর্ট, কম্পিউটার-সংক্রান্ত সাধারণ সহায়তা এবং প্রযুক্তিগত সমস্যা সমাধান। নির্দিষ্ট কাজের সুবিধা ও শর্ত দোকানে নিশ্চিত করুন।</p></div>
+    <div class="mst-box"><h3>📝 অনলাইন আবেদন ও ডকুমেন্ট</h3><p>পাসপোর্ট আবেদন, জন্মনিবন্ধন সংশোধন-সংক্রান্ত আবেদন, শিক্ষা বোর্ডের ফর্ম, চাকরির আবেদন, CV তৈরি, টাইপিং ও প্রিন্টিংসহ বিভিন্ন অনলাইন কাজে সহায়তা। আবেদন জমা দেওয়ার আগে সব তথ্য যাচাই করুন।</p></div>
+    <div class="mst-box"><h3>💳 রিচার্জ ও মোবাইল ফাইন্যান্সিয়াল সেবা</h3><p>মোবাইল রিচার্জ এবং বিকাশ, নগদ ও রকেট-সংক্রান্ত সেবা/সহায়তা। লেনদেনের ধরন, চার্জ ও প্রাপ্যতা আগে নিশ্চিত করুন।</p></div>
+    <div class="mst-box"><h3>🛍️ স্মার্টফোন ও অ্যাক্সেসরিজ</h3><p>নতুন ও ব্যবহৃত স্মার্টফোন এবং মোবাইল অ্যাক্সেসরিজ কেনাবেচা। নির্দিষ্ট মডেল, স্টক, মূল্য ও ওয়ারেন্টির তথ্য দোকানে জেনে নিন।</p></div>
+    <div class="mst-box"><h3>📞 যোগাযোগ</h3><p>ফোন/WhatsApp: 01410-452007</p><p>Facebook: Your Mamun</p></div>
+    <div class="mst-box"><h3>🕐 দোকানে আসার আগে</h3><p>খোলার সময়, নির্দিষ্ট সেবার প্রাপ্যতা ও সার্ভিস চার্জ আগে যোগাযোগ করে জেনে নিন।</p></div>
+    <div class="mst-box"><h3>🔐 গ্রাহকের নিরাপত্তা</h3><p>পাসওয়ার্ড, OTP ও গোপন PIN কাউকে জানাবেন না। ফোন সার্ভিসিংয়ে দেওয়ার আগে গুরুত্বপূর্ণ ডেটার ব্যাকআপ রাখুন। অনলাইন আবেদন জমা দেওয়ার আগে নাম, জন্মতারিখ ও অন্যান্য তথ্য যাচাই করুন।</p></div>
+  `:"";
+  const tourismInfo=isService?"":`
+    <div class="mst-box"><h3>📖 ইতিহাস</h3><p>${esc(d.history)}</p></div>
+    <div class="mst-box"><h3>👀 দেখার মতো কী কী আছে?</h3>${detailList(d.highlights)}</div>
+    <div class="mst-box"><h3>🚗 কীভাবে যাবেন?</h3><p>${esc(d.howToGo)}</p></div>
+    <div class="mst-box"><h3>🚌 যাতায়াত</h3><p>${esc(d.transport)}</p></div>
+    <div class="mst-box"><h3>🕐 উপযুক্ত সময়</h3><p>${esc(d.bestTime)}</p></div>
+    <div class="mst-box"><h3>🎟️ প্রবেশ মূল্য</h3><p>${esc(d.entryFee)}</p></div>
+    <div class="mst-box"><h3>🏪 সুবিধা</h3>${detailList(d.facilities)}</div>
+    <div class="mst-box"><h3>🍽️ খাবার</h3><p>${esc(d.food)}</p></div>
+    <div class="mst-box"><h3>🏨 থাকার ব্যবস্থা</h3><p>${esc(d.stay)}</p></div>
+    <div class="mst-box"><h3>⚠️ নিরাপত্তা</h3><p>${esc(d.safety)}</p></div>
+    <div class="mst-box"><h3>💡 ভ্রমণ টিপস</h3>${detailList(d.tips)}</div>
+  `;
   document.getElementById("modalBody").innerHTML=`
   <div class="mst-detail">
-    <h2>📍 ${esc(p.name)}</h2>
+    <h2>${isService?"🏪":"📍"} ${esc(p.name)}</h2>
     <div class="chips"><span class="chip">${esc(p.category)}</span><span class="chip">${esc(p.upazila)}</span></div>
     ${hero?`<div class="mst-hero" style="background-image:url('${esc(hero)}')"></div>`:""}
-    <div class="mst-box"><h3>📝 পূর্ণ বিস্তারিত</h3><p>${esc(d.intro)}</p></div>
-    <div class="mst-grid">
-      <div class="mst-box"><h3>📖 ইতিহাস</h3><p>${esc(d.history)}</p></div>
-      <div class="mst-box"><h3>👀 দেখার মতো কী কী আছে?</h3>${detailList(d.highlights)}</div>
-      <div class="mst-box"><h3>🚗 কীভাবে যাবেন?</h3><p>${esc(d.howToGo)}</p></div>
-      <div class="mst-box"><h3>🚌 যাতায়াত</h3><p>${esc(d.transport)}</p></div>
-      <div class="mst-box"><h3>🕐 উপযুক্ত সময়</h3><p>${esc(d.bestTime)}</p></div>
-      <div class="mst-box"><h3>🎟️ প্রবেশ মূল্য</h3><p>${esc(d.entryFee)}</p></div>
-      <div class="mst-box"><h3>🏪 সুবিধা</h3>${detailList(d.facilities)}</div>
-      <div class="mst-box"><h3>🍽️ খাবার</h3><p>${esc(d.food)}</p></div>
-      <div class="mst-box"><h3>🏨 থাকার ব্যবস্থা</h3><p>${esc(d.stay)}</p></div>
-      <div class="mst-box"><h3>⚠️ নিরাপত্তা</h3><p>${esc(d.safety)}</p></div>
-      <div class="mst-box"><h3>💡 ভ্রমণ টিপস</h3>${detailList(d.tips)}</div>
-    </div>
-    ${gallery?`<div class="mst-box"><h3>📸 Gallery</h3><div class="mst-gallery">${gallery}</div></div>`:""}
+    <div class="mst-box"><h3>📝 ${isService?"প্রতিষ্ঠানের পরিচিতি":"পূর্ণ বিস্তারিত"}</h3><p>${esc(d.intro)}</p></div>
+    <div class="mst-grid">${isService?serviceInfo:tourismInfo}</div>
+    ${gallery?`<div class="mst-box"><h3>📸 ছবি</h3><div class="mst-gallery">${gallery}</div></div>`:""}
     <div class="mst-actions">
-      <a class="mst-primary" target="_blank" href="${mapUrl(p.maps)}">🗺️ Google Maps</a>
-      <a target="_blank" href="${videoUrl(p.name)}">▶️ YouTube</a>
+      <a class="mst-primary" target="_blank" rel="noopener" href="${mapUrl(p.maps)}">🗺️ Google Maps</a>
+      ${isService?`<a target="_blank" rel="noopener" href="${whatsappUrl}?text=${encodeURIComponent("মামুন স্মার্টপয়েন্ট সম্পর্কে জানতে চাই।")}">🟢 WhatsApp যোগাযোগ</a>`:`<a target="_blank" rel="noopener" href="${videoUrl(p.name)}">▶️ YouTube</a>`}
       <button onclick="toggleVisited('${safe(p.name)}');openFullDetails(places.find(x=>x.name==='${safe(p.name)}'))">${isVisited(p.name)?"↩️ আনমার্ক":"✅ আমি ঘুরেছি"}</button>
       <button onclick="sharePlace('${safe(p.name)}')">↗️ Share</button>
       <button onclick="window.print()">🖨️ Print</button>
@@ -127,7 +178,7 @@ function render(){
   const c=document.getElementById("cat")?.value||"all";
   const u=document.getElementById("up")?.value||"all";
   const cards=document.getElementById("cards"); if(!cards)return;
-  const arr=places.filter(p=>(c==="all"||p.category===c)&&(u==="all"||p.upazila===u)&&(!q||p.name.toLowerCase().includes(q)||p.upazila.toLowerCase().includes(q)||p.category.toLowerCase().includes(q)));
+  const arr=places.filter(p=>(c==="all"||p.category===c)&&(u==="all"||p.upazila===u)&&(!q||p.name.toLowerCase().includes(q)||p.upazila.toLowerCase().includes(q)||p.category.toLowerCase().includes(q)||(p.address||"").toLowerCase().includes(q)||(p.desc||"").toLowerCase().includes(q)||(p.services||[]).some(x=>x.toLowerCase().includes(q))));
   cards.innerHTML=arr.map(p=>`
     <article class="card ${isVisited(p.name)?"visited":""}">
       <div class="photo" style="${photoStyle(p)}"><div class="loc">📍 ${esc(p.name)}<br><small>${esc(p.upazila)}, শেরপুর</small></div></div>
@@ -179,7 +230,7 @@ function addCommunity(){
   s.innerHTML=`<h2>💬 ভ্রমণকারীদের কমিউনিটি</h2><p>নতুন শেরপুরের লোকেশন জানাতে নিচের ফর্ম ব্যবহার করুন। প্রস্তাবটি আপনার WhatsApp-এ যাবে।</p>
   <h3>📍 নতুন লোকেশন প্রস্তাব করুন</h3><form class="mamun-location-form" id="mamunLocationForm">
   <input id="locName" required placeholder="লোকেশনের নাম"><input id="locArea" required placeholder="উপজেলা / এলাকা">
-  <select id="locCategory"><option>প্রকৃতি</option><option>ঐতিহাসিক</option><option>পার্ক</option><option>সংস্কৃতি</option><option>বিনোদন</option></select>
+  <select id="locCategory"><option>প্রকৃতি</option><option>ঐতিহাসিক</option><option>পার্ক</option><option>সংস্কৃতি</option><option>বিনোদন</option><option>সেবা কেন্দ্র</option></select>
   <input id="locMap" placeholder="Google Maps লিংক"><textarea id="locInfo" rows="4" placeholder="লোকেশন সম্পর্কে তথ্য"></textarea>
   <button type="submit">🟢 লোকেশন প্রস্তাব পাঠান</button></form><hr><h3>💬 মন্তব্য</h3><p>সবার জন্য স্থায়ী মন্তব্য ব্যবস্থা Firebase যোগ করার পর চালু হবে।</p>`;
   document.body.appendChild(s);
