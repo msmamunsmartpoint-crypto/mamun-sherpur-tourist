@@ -26,7 +26,7 @@ const places=[
   category: "সেবা কেন্দ্র",
   lat: 25.110843,
   lon: 89.899210,
-  image: "",
+  image: "assets/mamun-smartpoint.png",
   desc: "মোবাইল ও কম্পিউটার সার্ভিসিং, সফটওয়্যার, অনলাইন আবেদন, SIM-সংক্রান্ত সেবা, মোবাইল রিচার্জ, প্রিন্টিং, টাইপিং এবং স্মার্টফোন ও অ্যাক্সেসরিজ কেনাবেচা।",
   maps: "https://maps.app.goo.gl/qgSpxiU7q64mVKug8"
 }
